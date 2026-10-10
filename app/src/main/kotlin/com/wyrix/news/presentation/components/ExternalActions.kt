@@ -12,6 +12,7 @@ data class ArticleActions(
     val onOpen: (Article) -> Unit,
     val onToggleBookmark: (Article) -> Unit,
     val onShare: (Article) -> Unit,
+    val onNeedImage: (Article) -> Unit = {},
 )
 
 object ExternalActions {

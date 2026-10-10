@@ -1,13 +1,18 @@
 package com.wyrix.news.ads
 
-/**
- * Seam for a future ads SDK (e.g. AdMob). Nothing is shown today: adding AdMob needs a real
- * AdMob app id and a consent flow, so it is intentionally not wired into this build.
- */
+import android.content.Context
+import com.google.android.gms.ads.MobileAds
+
 interface AdController {
     val isEnabled: Boolean
+    val bannerUnitId: String
 }
 
-object NoOpAdController : AdController {
-    override val isEnabled: Boolean = false
+/** Google AdMob. Defaults to Google's public TEST ad units (see app/build.gradle.kts). */
+class AdMobController(override val bannerUnitId: String) : AdController {
+    override val isEnabled: Boolean = bannerUnitId.isNotBlank()
+
+    fun initialize(context: Context) {
+        MobileAds.initialize(context)
+    }
 }

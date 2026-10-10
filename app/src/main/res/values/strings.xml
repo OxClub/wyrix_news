@@ -18,7 +18,9 @@
     <string name="action_save">Save article</string>
     <string name="action_unsave">Remove from saved</string>
     <string name="action_share">Share</string>
-    <string name="action_read_original">Read original article</string>
+    <string name="action_read_full">Read full article</string>
+    <string name="action_open_browser">Open in browser</string>
+    <string name="action_close">Close</string>
     <string name="action_add">Add</string>
 
     <string name="section_breaking">Breaking</string>
@@ -89,7 +91,7 @@
 
     <!-- Long informational texts: English only for now; have them reviewed before translating. -->
     <string name="sources_body" translatable="false">Wyrix News is a news discovery app. It shows headlines, short descriptions, source names and links. Full articles always open on the publisher\'s own website.\n\nProviders\n• FreeNewsAPI.ai - a free, keyless news search API. Every article links back to its original publisher. The service is provided as-is with no uptime guarantee, and country and language tags are inferred.\n• Publisher RSS feeds - only if configured when the app was built.\n\nLimits\nCoverage differs by region and language. Some states, union territories and countries may show little or no recent news. Wyrix News never writes or edits news; when nothing is available it says so.</string>
-    <string name="privacy_body" translatable="false">Wyrix News has no accounts and does not ask for your name, e-mail address, contacts, location, camera or microphone.\n\nStored on your device only\n• Saved articles (title, link, source, short excerpt)\n• Recently loaded headlines (cache)\n• Preferences: theme, favorites, recent searches\nClear the app\'s storage or uninstall to delete them.\n\nNetwork\nTo load news, the app sends your search words or the selected region and category, plus your IP address, to FreeNewsAPI.ai and, if configured, to publisher RSS servers. Opening an article loads the publisher\'s website, which has its own privacy policy.\n\nWyrix News currently shows no ads, uses no analytics and sends no notifications.</string>
-    <string name="licenses_body" translatable="false">Wyrix News is built with open-source software:\n\n• AndroidX, Jetpack Compose, Room, DataStore, Navigation (Apache License 2.0)\n• Kotlin, kotlinx.coroutines, kotlinx.serialization (Apache License 2.0)\n• OkHttp (Apache License 2.0)\n• Coil (Apache License 2.0)\n\nLicense texts: https://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="privacy_body" translatable="false">Wyrix News has no accounts and does not ask for your name, e-mail address, contacts, location, camera or microphone.\n\nStored on your device only\n• Saved articles (title, link, source, short excerpt)\n• Recently loaded headlines (cache)\n• Preferences: theme, favorites, recent searches\nClear the app\'s storage or uninstall to delete them.\n\nNetwork\nTo load news, the app sends your search words or the selected region and category, plus your IP address, to FreeNewsAPI.ai and, if configured, to publisher RSS servers. To show thumbnails, the app downloads the beginning of each article\'s web page from its publisher and reads its preview image. Reading an article inside the app loads the publisher\'s website in an in-app browser, which has its own privacy policy.\n\nWyrix News shows ads from Google AdMob, which may collect your device\'s advertising ID and approximate location. It uses no other analytics and sends no notifications.</string>
+    <string name="licenses_body" translatable="false">Wyrix News is built with open-source software:\n\n• AndroidX, Jetpack Compose, Room, DataStore, Navigation (Apache License 2.0)\n• Kotlin, kotlinx.coroutines, kotlinx.serialization (Apache License 2.0)\n• OkHttp (Apache License 2.0)\n• Coil (Apache License 2.0)\n• Google Mobile Ads SDK (Google\'s terms)\n\nLicense texts: https://www.apache.org/licenses/LICENSE-2.0</string>
     <string name="about_body" translatable="false">Wyrix News is a news discovery app. Headlines, descriptions and links belong to their publishers; Wyrix News does not republish full articles.</string>
 </resources>

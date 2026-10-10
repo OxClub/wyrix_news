@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.wyrix.news.BuildConfig
 import com.wyrix.news.WyrixApplication
 import com.wyrix.news.ads.AdController
-import com.wyrix.news.ads.NoOpAdController
+import com.wyrix.news.ads.AdMobController
 import com.wyrix.news.data.local.WyrixDatabase
 import com.wyrix.news.data.prefs.UserPrefs
 import com.wyrix.news.data.remote.FreeNewsProvider
@@ -15,12 +15,14 @@ import com.wyrix.news.data.remote.RssFeedRegistry
 import com.wyrix.news.data.remote.RssProvider
 import com.wyrix.news.data.repository.AndroidConnectivity
 import com.wyrix.news.data.repository.BookmarkRepository
+import com.wyrix.news.data.repository.ImageResolver
 import com.wyrix.news.data.repository.NewsRepository
 import com.wyrix.news.data.repository.RoomArticleStore
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 
 /** Hand-written dependency container: no code generation, nothing to break the build. */
@@ -45,15 +47,26 @@ class AppContainer(context: Context) {
         RssProvider(client = http, feeds = RssFeedRegistry.parse(BuildConfig.RSS_FEEDS), userAgent = userAgent),
     )
 
+    private val connectivity = AndroidConnectivity(app)
+    private val store = RoomArticleStore(database.articleDao(), database.bookmarkDao())
+
     val repository = NewsRepository(
         providers = providers,
-        store = RoomArticleStore(database.articleDao()),
+        store = store,
         gate = ProviderGate(),
-        connectivity = AndroidConnectivity(app),
+        connectivity = connectivity,
     )
 
+    val imageResolver = ImageResolver(http, store, connectivity, appScope, userAgent)
+
     val bookmarks = BookmarkRepository(database.bookmarkDao())
-    val ads: AdController = NoOpAdController
+
+    private val adMob = AdMobController(BuildConfig.ADMOB_BANNER_ID)
+    val ads: AdController = adMob
+
+    init {
+        appScope.launch(Dispatchers.IO) { runCatching { adMob.initialize(app) } }
+    }
 }
 
 fun Context.appContainer(): AppContainer = (applicationContext as WyrixApplication).container

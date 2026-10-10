@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,9 @@ fun ArticleCard(
     modifier: Modifier = Modifier,
     showBreaking: Boolean = false,
 ) {
+    LaunchedEffect(article.id, article.imageUrl) {
+        if (article.imageUrl == null) actions.onNeedImage(article)
+    }
     Card(
         onClick = { actions.onOpen(article) },
         modifier = modifier.fillMaxWidth(),
@@ -116,6 +120,9 @@ fun CompactArticleCard(
     modifier: Modifier = Modifier,
     showBreaking: Boolean = false,
 ) {
+    LaunchedEffect(article.id, article.imageUrl) {
+        if (article.imageUrl == null) actions.onNeedImage(article)
+    }
     Card(
         onClick = { actions.onOpen(article) },
         modifier = modifier.width(260.dp),

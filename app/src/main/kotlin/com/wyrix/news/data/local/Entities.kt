@@ -49,7 +49,7 @@ data class BookmarkEntity(
 
 fun ArticleEntity.toDomain() = Article(
     id = id, title = title, url = url, description = description, sourceName = sourceName,
-    sourceHost = sourceHost, publishedAt = publishedAt, imageUrl = imageUrl, author = author,
+    sourceHost = sourceHost, publishedAt = publishedAt, imageUrl = imageUrl?.takeIf { it.isNotBlank() }, author = author,
     category = category, country = country, language = language,
 )
 
@@ -61,7 +61,7 @@ fun Article.toEntity(fetchedAt: Long) = ArticleEntity(
 
 fun BookmarkEntity.toDomain() = Article(
     id = id, title = title, url = url, description = description, sourceName = sourceName,
-    sourceHost = sourceHost, publishedAt = publishedAt, imageUrl = imageUrl,
+    sourceHost = sourceHost, publishedAt = publishedAt, imageUrl = imageUrl?.takeIf { it.isNotBlank() },
 )
 
 fun Article.toBookmark(savedAt: Long) = BookmarkEntity(

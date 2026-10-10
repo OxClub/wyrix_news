@@ -9,6 +9,8 @@ import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
+data class ImageRow(val id: String, val imageUrl: String?)
+
 @Dao
 abstract class ArticleDao {
     @Query(
@@ -42,6 +44,15 @@ abstract class ArticleDao {
     )
     abstract suspend fun pruneArticles(before: Long)
 
+    @Query("SELECT id, imageUrl FROM articles WHERE id IN (:ids)")
+    abstract suspend fun imagesFor(ids: List<String>): List<ImageRow>
+
+    @Query("SELECT imageUrl FROM articles WHERE id = :id LIMIT 1")
+    abstract suspend fun imageOf(id: String): String?
+
+    @Query("UPDATE articles SET imageUrl = :imageUrl WHERE id = :id")
+    abstract suspend fun setImage(id: String, imageUrl: String)
+
     @Transaction
     open suspend fun replaceFeed(feedKey: String, articles: List<ArticleEntity>, fetchedAt: Long) {
         upsertArticles(articles)
@@ -69,6 +80,9 @@ interface BookmarkDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bookmark: BookmarkEntity)
+
+    @Query("UPDATE bookmarks SET imageUrl = :imageUrl WHERE id = :id AND imageUrl IS NULL")
+    suspend fun setImage(id: String, imageUrl: String)
 
     @Query("DELETE FROM bookmarks WHERE id = :id")
     suspend fun delete(id: String)

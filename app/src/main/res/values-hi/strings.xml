@@ -16,7 +16,9 @@
     <string name="action_save">लेख सहेजें</string>
     <string name="action_unsave">सहेजे गए से हटाएँ</string>
     <string name="action_share">साझा करें</string>
-    <string name="action_read_original">मूल लेख पढ़ें</string>
+    <string name="action_read_full">पूरा लेख पढ़ें</string>
+    <string name="action_open_browser">ब्राउज़र में खोलें</string>
+    <string name="action_close">बंद करें</string>
     <string name="action_add">जोड़ें</string>
 
     <string name="section_breaking">ब्रेकिंग</string>

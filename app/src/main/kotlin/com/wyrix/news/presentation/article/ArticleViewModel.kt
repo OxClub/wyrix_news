@@ -3,6 +3,7 @@ package com.wyrix.news.presentation.article
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wyrix.news.data.repository.BookmarkRepository
+import com.wyrix.news.data.repository.ImageResolver
 import com.wyrix.news.data.repository.NewsRepository
 import com.wyrix.news.domain.model.Article
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,8 @@ class ArticleViewModel(
     private val id: String,
     private val repository: NewsRepository,
     private val bookmarks: BookmarkRepository,
+    private val imageResolver: ImageResolver,
+    private val loadImage: Boolean = true,
 ) : ViewModel() {
     private val _state = MutableStateFlow<ArticleUiState>(ArticleUiState.Loading)
     val state: StateFlow<ArticleUiState> = _state
@@ -26,7 +29,15 @@ class ArticleViewModel(
     init {
         viewModelScope.launch {
             val article = repository.article(id) ?: bookmarks.get(id)
-            _state.value = if (article != null) ArticleUiState.Loaded(article) else ArticleUiState.NotFound
+            if (article == null) {
+                _state.value = ArticleUiState.NotFound
+                return@launch
+            }
+            _state.value = ArticleUiState.Loaded(article)
+            if (loadImage && article.imageUrl == null) {
+                val image = imageResolver.resolve(article)
+                if (image != null) _state.value = ArticleUiState.Loaded(article.copy(imageUrl = image))
+            }
         }
     }
 }

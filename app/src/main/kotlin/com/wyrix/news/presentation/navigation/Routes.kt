@@ -13,12 +13,14 @@ object Routes {
     const val FAVORITES = "favorites"
 
     const val ARTICLE = "article/{id}"
+    const val READER = "reader/{id}"
     const val FEED = "feed/{kind}/{arg}"
     const val STATE = "state/{id}"
     const val COUNTRY = "country/{iso}"
     const val INFO = "info/{type}"
 
     fun article(id: String) = "article/$id"
+    fun reader(id: String) = "reader/$id"
     fun feed(kind: String, arg: String = "-") = "feed/$kind/${Uri.encode(arg)}"
     fun state(id: String) = "state/$id"
     fun country(iso: String) = "country/$iso"

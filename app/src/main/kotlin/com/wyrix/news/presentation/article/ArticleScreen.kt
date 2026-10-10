@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -46,10 +47,11 @@ fun ArticleScreen(
     id: String,
     bookmarkedIds: Set<String>,
     onToggleBookmark: (Article) -> Unit,
+    onReadFull: (Article) -> Unit,
     onBack: () -> Unit,
 ) {
     val vm = containerViewModel<ArticleViewModel>(key = "article-$id") {
-        ArticleViewModel(id, it.repository, it.bookmarks)
+        ArticleViewModel(id, it.repository, it.bookmarks, it.imageResolver)
     }
     val state by vm.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -79,14 +81,14 @@ fun ArticleScreen(
             when (val current = state) {
                 ArticleUiState.Loading -> Unit
                 ArticleUiState.NotFound -> MessageState(title = stringResource(R.string.article_not_found))
-                is ArticleUiState.Loaded -> ArticleBody(current.article)
+                is ArticleUiState.Loaded -> ArticleBody(current.article, onReadFull)
             }
         }
     }
 }
 
 @Composable
-private fun ArticleBody(article: Article) {
+private fun ArticleBody(article: Article, onReadFull: (Article) -> Unit) {
     val context = LocalContext.current
     Column(Modifier.widthIn(max = 720.dp).verticalScroll(rememberScrollState())) {
         article.imageUrl?.let {
@@ -117,9 +119,14 @@ private fun ArticleBody(article: Article) {
             }
             Spacer(Modifier.height(24.dp))
             Button(
+                onClick = { onReadFull(article) },
+                modifier = Modifier.fillMaxWidth(),
+            ) { Text(stringResource(R.string.action_read_full)) }
+            Spacer(Modifier.height(8.dp))
+            OutlinedButton(
                 onClick = { ExternalActions.openUrl(context, article.url) },
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text(stringResource(R.string.action_read_original)) }
+            ) { Text(stringResource(R.string.action_open_browser)) }
             Spacer(Modifier.height(8.dp))
             Text(
                 text = stringResource(R.string.article_source, article.sourceName),

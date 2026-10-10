@@ -1,5 +1,6 @@
 package com.wyrix.news.presentation.navigation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -28,6 +29,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.wyrix.news.R
+import com.wyrix.news.ads.AdBanner
+import com.wyrix.news.di.appContainer
+import com.wyrix.news.presentation.article.ReaderScreen
 import com.wyrix.news.domain.model.IndiaRegions
 import com.wyrix.news.domain.model.WorldCountries
 import com.wyrix.news.presentation.article.ArticleScreen
@@ -66,11 +70,13 @@ fun WyrixApp() {
     val bookmarksVm = containerViewModel<BookmarksViewModel> { BookmarksViewModel(it.bookmarks) }
     val bookmarkedIds by bookmarksVm.ids.collectAsStateWithLifecycle()
 
+    val container = context.appContainer()
     val actions = remember(navController, bookmarksVm, context) {
         ArticleActions(
             onOpen = { navController.navigate(Routes.article(it.id)) },
             onToggleBookmark = { bookmarksVm.toggle(it) },
             onShare = { ExternalActions.share(context, it) },
+            onNeedImage = { container.imageResolver.request(it) },
         )
     }
     val navigate: (String) -> Unit = { route -> navController.navigate(route) }
@@ -84,6 +90,8 @@ fun WyrixApp() {
         contentWindowInsets = NoInsets,
         bottomBar = {
             if (showBar) {
+                Column {
+                    if (container.ads.isEnabled) AdBanner(container.ads.bannerUnitId)
                 NavigationBar {
                     topLevelDestinations.forEach { item ->
                         NavigationBarItem(
@@ -99,6 +107,7 @@ fun WyrixApp() {
                             label = { Text(stringResource(item.label)) },
                         )
                     }
+                }
                 }
             }
         },
@@ -126,8 +135,15 @@ fun WyrixApp() {
                     id = entry.arguments?.getString("id").orEmpty(),
                     bookmarkedIds = bookmarkedIds,
                     onToggleBookmark = actions.onToggleBookmark,
+                    onReadFull = { navController.navigate(Routes.reader(it.id)) },
                     onBack = back,
                 )
+            }
+            composable(
+                Routes.READER,
+                arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            ) { entry ->
+                ReaderScreen(entry.arguments?.getString("id").orEmpty(), back)
             }
             composable(
                 Routes.FEED,

@@ -32,6 +32,8 @@ private class FakeStore : ArticleStore {
     override suspend fun getArticle(id: String): Article? = null
     override suspend fun lastFetched(feedKey: String): Long? = fetched[feedKey]
     override suspend fun prune(before: Long) = Unit
+    override suspend fun imageState(id: String): String? = null
+    override suspend fun updateImage(id: String, imageUrl: String) = Unit
 }
 
 private class FakeProvider(override val id: String, var result: ProviderResult) : NewsProvider {
