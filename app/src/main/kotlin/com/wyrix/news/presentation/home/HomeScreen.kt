@@ -40,6 +40,7 @@ import com.wyrix.news.presentation.components.NoticeBanner
 import com.wyrix.news.presentation.components.SectionHeader
 import com.wyrix.news.presentation.components.SkeletonList
 import com.wyrix.news.presentation.components.containerViewModel
+import com.wyrix.news.presentation.components.isHindiUi
 import com.wyrix.news.presentation.components.errorRes
 import com.wyrix.news.presentation.components.noticeRes
 import com.wyrix.news.presentation.navigation.Routes
@@ -169,7 +170,10 @@ private fun HomeContent(
 @Composable
 private fun sectionTitle(section: HomeSection): String = when (section.id) {
     HomeSectionId.LATEST -> stringResource(R.string.section_latest)
-    HomeSectionId.FOR_YOU -> stringResource(R.string.section_for_you, section.title.orEmpty())
+    HomeSectionId.FOR_YOU -> stringResource(
+        R.string.section_for_you,
+        (if (isHindiUi()) section.titleHi else section.title).orEmpty(),
+    )
     HomeSectionId.INDIA -> stringResource(R.string.section_india)
     HomeSectionId.WORLD -> stringResource(R.string.section_world)
     HomeSectionId.BUSINESS -> stringResource(R.string.section_business)

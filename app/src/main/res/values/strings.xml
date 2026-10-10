@@ -73,8 +73,13 @@
     <string name="settings_theme_system">System</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
-    <string name="settings_english_only">English articles only</string>
-    <string name="settings_english_only_desc">Show only English-language articles. Turn off to include other languages.</string>
+    <string name="settings_language">App language</string>
+    <string name="language_system">System</string>
+    <string name="lang_name_en" translatable="false">English</string>
+    <string name="lang_name_hi" translatable="false">हिन्दी</string>
+    <string name="settings_news_language">News language</string>
+    <string name="settings_news_language_desc">The language of the articles shown. Hindi articles are matched with Hindi search words, so coverage can differ from English.</string>
+    <string name="news_lang_all">All languages</string>
     <string name="settings_favorites">Favorites</string>
     <string name="settings_favorites_desc">States, countries, categories and topics that shape your Home feed.</string>
     <string name="settings_sources">News sources</string>
@@ -89,9 +94,9 @@
 
     <string name="share_text">%1$s\nSource: %2$s\nRead more: %3$s</string>
 
-    <!-- Long informational texts: English only for now; have them reviewed before translating. -->
-    <string name="sources_body" translatable="false">Wyrix News is a news discovery app. It shows headlines, short descriptions, source names and links. Full articles always open on the publisher\'s own website.\n\nProviders\n• FreeNewsAPI.ai - a free, keyless news search API. Every article links back to its original publisher. The service is provided as-is with no uptime guarantee, and country and language tags are inferred.\n• Publisher RSS feeds - only if configured when the app was built.\n\nLimits\nCoverage differs by region and language. Some states, union territories and countries may show little or no recent news. Wyrix News never writes or edits news; when nothing is available it says so.</string>
-    <string name="privacy_body" translatable="false">Wyrix News has no accounts and does not ask for your name, e-mail address, contacts, location, camera or microphone.\n\nStored on your device only\n• Saved articles (title, link, source, short excerpt)\n• Recently loaded headlines (cache)\n• Preferences: theme, favorites, recent searches\nClear the app\'s storage or uninstall to delete them.\n\nNetwork\nTo load news, the app sends your search words or the selected region and category, plus your IP address, to FreeNewsAPI.ai and, if configured, to publisher RSS servers. To show thumbnails, the app downloads the beginning of each article\'s web page from its publisher and reads its preview image. Reading an article inside the app loads the publisher\'s website in an in-app browser, which has its own privacy policy.\n\nWyrix News shows ads from Google AdMob, which may collect your device\'s advertising ID and approximate location. It uses no other analytics and sends no notifications.</string>
-    <string name="licenses_body" translatable="false">Wyrix News is built with open-source software:\n\n• AndroidX, Jetpack Compose, Room, DataStore, Navigation (Apache License 2.0)\n• Kotlin, kotlinx.coroutines, kotlinx.serialization (Apache License 2.0)\n• OkHttp (Apache License 2.0)\n• Coil (Apache License 2.0)\n• Google Mobile Ads SDK (Google\'s terms)\n\nLicense texts: https://www.apache.org/licenses/LICENSE-2.0</string>
-    <string name="about_body" translatable="false">Wyrix News is a news discovery app. Headlines, descriptions and links belong to their publishers; Wyrix News does not republish full articles.</string>
+    <!-- Long informational texts: have the Hindi versions reviewed before release. -->
+    <string name="sources_body">Wyrix News is a news discovery app. It shows headlines, short descriptions, source names and links. Full articles always open on the publisher\'s own website.\n\nProviders\n• FreeNewsAPI.ai - a free, keyless news search API. Every article links back to its original publisher. The service is provided as-is with no uptime guarantee, and country and language tags are inferred.\n• Publisher RSS feeds - only if configured when the app was built.\n\nLimits\nCoverage differs by region and language. Some states, union territories and countries may show little or no recent news. Wyrix News never writes or edits news; when nothing is available it says so.</string>
+    <string name="privacy_body">Wyrix News has no accounts and does not ask for your name, e-mail address, contacts, location, camera or microphone.\n\nStored on your device only\n• Saved articles (title, link, source, short excerpt)\n• Recently loaded headlines (cache)\n• Preferences: theme, favorites, recent searches\nClear the app\'s storage or uninstall to delete them.\n\nNetwork\nTo load news, the app sends your search words or the selected region and category, plus your IP address, to FreeNewsAPI.ai and, if configured, to publisher RSS servers. To show thumbnails, the app downloads the beginning of each article\'s web page from its publisher and reads its preview image. Reading an article inside the app loads the publisher\'s website in an in-app browser, which has its own privacy policy.\n\nWyrix News shows ads from Google AdMob, which may collect your device\'s advertising ID and approximate location. It uses no other analytics and sends no notifications.</string>
+    <string name="licenses_body">Wyrix News is built with open-source software:\n\n• AndroidX, Jetpack Compose, Room, DataStore, Navigation (Apache License 2.0)\n• Kotlin, kotlinx.coroutines, kotlinx.serialization (Apache License 2.0)\n• OkHttp (Apache License 2.0)\n• Coil (Apache License 2.0)\n• Google Mobile Ads SDK (Google\'s terms)\n\nLicense texts: https://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="about_body">Wyrix News is a news discovery app. Headlines, descriptions and links belong to their publishers; Wyrix News does not republish full articles.</string>
 </resources>

@@ -71,8 +71,11 @@
     <string name="settings_theme_system">सिस्टम</string>
     <string name="settings_theme_light">लाइट</string>
     <string name="settings_theme_dark">डार्क</string>
-    <string name="settings_english_only">केवल अंग्रेज़ी लेख</string>
-    <string name="settings_english_only_desc">केवल अंग्रेज़ी भाषा के लेख दिखाएँ। बंद करने पर अन्य भाषाओं के लेख भी शामिल होंगे।</string>
+    <string name="settings_language">ऐप की भाषा</string>
+    <string name="language_system">सिस्टम</string>
+    <string name="settings_news_language">समाचार की भाषा</string>
+    <string name="settings_news_language_desc">दिखाए जाने वाले लेखों की भाषा। हिन्दी लेख हिन्दी खोज शब्दों से मिलाए जाते हैं, इसलिए कवरेज अंग्रेज़ी से अलग हो सकता है।</string>
+    <string name="news_lang_all">सभी भाषाएँ</string>
     <string name="settings_favorites">पसंदीदा</string>
     <string name="settings_favorites_desc">राज्य, देश, श्रेणियाँ और विषय जो आपके होम फ़ीड को आकार देते हैं।</string>
     <string name="settings_sources">समाचार स्रोत</string>
@@ -86,4 +89,9 @@
     <string name="favorites_topic_hint">विषय जोड़ें</string>
 
     <string name="share_text">%1$s\nस्रोत: %2$s\nऔर पढ़ें: %3$s</string>
+
+    <string name="sources_body">Wyrix News एक समाचार खोज ऐप है। यह सुर्ख़ियाँ, संक्षिप्त विवरण, स्रोत के नाम और लिंक दिखाता है। पूरे लेख हमेशा प्रकाशक की अपनी वेबसाइट पर खुलते हैं।\n\nस्रोत\n• FreeNewsAPI.ai - एक मुफ़्त समाचार खोज API, जिसके लिए किसी कुंजी की ज़रूरत नहीं। हर लेख अपने मूल प्रकाशक से जुड़ा है। यह सेवा जैसी है वैसी दी जाती है, चलते रहने की कोई गारंटी नहीं है, और देश व भाषा के टैग अनुमान से लगाए जाते हैं।\n• प्रकाशकों की RSS फ़ीड - केवल तब, जब ऐप बनाते समय जोड़ी गई हों।\n\nसीमाएँ\nकवरेज क्षेत्र और भाषा के अनुसार अलग-अलग होता है। कुछ राज्यों, केंद्र शासित प्रदेशों और देशों की हालिया खबरें कम या बिल्कुल नहीं हो सकतीं। Wyrix News खुद खबरें नहीं लिखता या बदलता; कुछ उपलब्ध न होने पर ऐप यही बताता है।</string>
+    <string name="privacy_body">Wyrix News में कोई खाता नहीं है और यह आपका नाम, ईमेल पता, संपर्क, लोकेशन, कैमरा या माइक्रोफ़ोन नहीं माँगता।\n\nकेवल आपके डिवाइस पर सहेजा जाता है\n• सहेजे गए लेख (शीर्षक, लिंक, स्रोत, छोटा अंश)\n• हाल में लोड की गई सुर्ख़ियाँ (कैश)\n• पसंद: थीम, पसंदीदा, हाल की खोजें\nइन्हें हटाने के लिए ऐप का स्टोरेज साफ़ करें या ऐप अनइंस्टॉल करें।\n\nनेटवर्क\nखबरें लोड करने के लिए ऐप आपके खोज शब्द या चुना गया क्षेत्र और श्रेणी, साथ में आपका IP पता, FreeNewsAPI.ai को और, यदि जोड़ा गया हो, प्रकाशकों के RSS सर्वर को भेजता है। थंबनेल दिखाने के लिए ऐप हर लेख के वेब पेज की शुरुआत प्रकाशक से डाउनलोड करके उसकी पूर्वावलोकन तस्वीर पढ़ता है। ऐप के अंदर लेख पढ़ने पर प्रकाशक की वेबसाइट इन-ऐप ब्राउज़र में खुलती है, जिसकी अपनी गोपनीयता नीति होती है।\n\nWyrix News में Google AdMob के विज्ञापन दिखते हैं, जो आपके डिवाइस की विज्ञापन आईडी और अनुमानित लोकेशन एकत्र कर सकते हैं। इसके अलावा कोई एनालिटिक्स इस्तेमाल नहीं होता और कोई नोटिफ़िकेशन नहीं भेजे जाते।</string>
+    <string name="licenses_body">Wyrix News ओपन-सोर्स सॉफ़्टवेयर से बना है:\n\n• AndroidX, Jetpack Compose, Room, DataStore, Navigation (Apache License 2.0)\n• Kotlin, kotlinx.coroutines, kotlinx.serialization (Apache License 2.0)\n• OkHttp (Apache License 2.0)\n• Coil (Apache License 2.0)\n• Google Mobile Ads SDK (Google की शर्तें)\n\nलाइसेंस पाठ: https://www.apache.org/licenses/LICENSE-2.0</string>
+    <string name="about_body">Wyrix News एक समाचार खोज ऐप है। सुर्ख़ियाँ, विवरण और लिंक उनके प्रकाशकों के हैं; Wyrix News पूरे लेख दोबारा प्रकाशित नहीं करता।</string>
 </resources>

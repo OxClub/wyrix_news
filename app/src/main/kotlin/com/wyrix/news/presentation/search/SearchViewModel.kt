@@ -120,7 +120,7 @@ class SearchViewModel(
             }
             return
         }
-        val language = if (prefs.settings.first().englishOnly) "en" else null
+        val language = prefs.settings.first().languageCode
         val spec = NewsQueryEngine.search(q, language)
         activeSpec = spec
         offset = 0

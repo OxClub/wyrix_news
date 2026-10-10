@@ -2,7 +2,7 @@ package com.wyrix.news
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +18,7 @@ import com.wyrix.news.di.appContainer
 import com.wyrix.news.presentation.navigation.WyrixApp
 import com.wyrix.news.presentation.theme.WyrixTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)

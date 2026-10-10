@@ -39,13 +39,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wyrix.news.BuildConfig
 import com.wyrix.news.R
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.wyrix.news.data.prefs.FavoriteKind
+import com.wyrix.news.data.prefs.NewsLanguage
 import com.wyrix.news.data.prefs.ThemeMode
 import com.wyrix.news.domain.model.Category
 import com.wyrix.news.domain.model.IndiaRegions
 import com.wyrix.news.domain.model.WorldCountries
 import com.wyrix.news.presentation.components.SectionHeader
 import com.wyrix.news.presentation.components.containerViewModel
+import com.wyrix.news.presentation.components.isHindiUi
 import com.wyrix.news.presentation.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,14 +84,27 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
                 ThemeChip(ThemeMode.LIGHT, R.string.settings_theme_light, settings.themeMode, vm::setTheme)
                 ThemeChip(ThemeMode.DARK, R.string.settings_theme_dark, settings.themeMode, vm::setTheme)
             }
-            Spacer(Modifier.height(8.dp))
-            ListItem(
-                headlineContent = { Text(stringResource(R.string.settings_english_only)) },
-                supportingContent = { Text(stringResource(R.string.settings_english_only_desc)) },
-                trailingContent = {
-                    Switch(checked = settings.englishOnly, onCheckedChange = vm::setEnglishOnly)
-                },
+            SectionHeader(stringResource(R.string.settings_language))
+            val currentTag = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+            Row(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                LanguageChip("", stringResource(R.string.language_system), currentTag, vm::onAppLanguageChosen)
+                LanguageChip("en", stringResource(R.string.lang_name_en), currentTag, vm::onAppLanguageChosen)
+                LanguageChip("hi", stringResource(R.string.lang_name_hi), currentTag, vm::onAppLanguageChosen)
+            }
+            SectionHeader(stringResource(R.string.settings_news_language))
+            Text(
+                text = stringResource(R.string.settings_news_language_desc),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
+            Spacer(Modifier.height(8.dp))
+            Row(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                NewsLanguageChip(NewsLanguage.ENGLISH, stringResource(R.string.lang_name_en), settings.newsLanguage, vm::setNewsLanguage)
+                NewsLanguageChip(NewsLanguage.HINDI, stringResource(R.string.lang_name_hi), settings.newsLanguage, vm::setNewsLanguage)
+                NewsLanguageChip(NewsLanguage.ALL, stringResource(R.string.news_lang_all), settings.newsLanguage, vm::setNewsLanguage)
+            }
+            Spacer(Modifier.height(8.dp))
             ListItem(
                 headlineContent = { Text(stringResource(R.string.settings_favorites)) },
                 supportingContent = { Text(stringResource(R.string.settings_favorites_desc)) },
@@ -115,6 +132,31 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
 }
 
 @Composable
+private fun LanguageChip(tag: String, label: String, currentTag: String, onChosen: (String) -> Unit) {
+    val selected = if (tag.isEmpty()) currentTag.isEmpty() else currentTag.substringBefore('-') == tag
+    FilterChip(
+        selected = selected,
+        onClick = {
+            onChosen(tag)
+            AppCompatDelegate.setApplicationLocales(
+                if (tag.isEmpty()) LocaleListCompat.getEmptyLocaleList() else LocaleListCompat.forLanguageTags(tag),
+            )
+        },
+        label = { Text(label) },
+    )
+}
+
+@Composable
+private fun NewsLanguageChip(
+    language: NewsLanguage,
+    label: String,
+    current: NewsLanguage,
+    onSelect: (NewsLanguage) -> Unit,
+) {
+    FilterChip(selected = language == current, onClick = { onSelect(language) }, label = { Text(label) })
+}
+
+@Composable
 private fun ThemeChip(mode: ThemeMode, label: Int, current: ThemeMode, onSelect: (ThemeMode) -> Unit) {
     FilterChip(selected = mode == current, onClick = { onSelect(mode) }, label = { Text(stringResource(label)) })
 }
@@ -125,6 +167,7 @@ fun FavoritesScreen(onBack: () -> Unit) {
     val vm = containerViewModel<SettingsViewModel> { SettingsViewModel(it.prefs) }
     val settings by vm.settings.collectAsStateWithLifecycle()
     var topic by rememberSaveable { mutableStateOf("") }
+    val hindi = isHindiUi()
 
     SubScreen(stringResource(R.string.settings_favorites), onBack) {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
@@ -137,7 +180,7 @@ fun FavoritesScreen(onBack: () -> Unit) {
                     FilterChip(
                         selected = region.id in settings.favoriteStates,
                         onClick = { vm.toggleFavorite(FavoriteKind.STATE, region.id) },
-                        label = { Text(region.name) },
+                        label = { Text(region.nameFor(hindi)) },
                     )
                 }
             }
@@ -150,7 +193,7 @@ fun FavoritesScreen(onBack: () -> Unit) {
                     FilterChip(
                         selected = country.iso in settings.favoriteCountries,
                         onClick = { vm.toggleFavorite(FavoriteKind.COUNTRY, country.iso) },
-                        label = { Text(country.name) },
+                        label = { Text(country.nameFor(hindi)) },
                     )
                 }
             }
@@ -163,7 +206,7 @@ fun FavoritesScreen(onBack: () -> Unit) {
                     FilterChip(
                         selected = category.id in settings.favoriteCategories,
                         onClick = { vm.toggleFavorite(FavoriteKind.CATEGORY, category.id) },
-                        label = { Text(category.label) },
+                        label = { Text(category.labelFor(hindi)) },
                     )
                 }
             }

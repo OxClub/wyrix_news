@@ -49,12 +49,14 @@ import com.wyrix.news.presentation.components.ArticleActions
 import com.wyrix.news.presentation.components.NameTile
 import com.wyrix.news.presentation.components.NoInsets
 import com.wyrix.news.presentation.components.SectionHeader
+import com.wyrix.news.presentation.components.isHindiUi
 import com.wyrix.news.presentation.feed.FeedPane
 import com.wyrix.news.presentation.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(onNavigate: (String) -> Unit) {
+    val hindi = isHindiUi()
     Scaffold(
         contentWindowInsets = NoInsets,
         topBar = {
@@ -99,7 +101,7 @@ fun ExploreScreen(onNavigate: (String) -> Unit) {
                 SectionHeader(stringResource(R.string.label_categories))
             }
             items(Category.entries.toList(), key = { "cat-" + it.id }) { category ->
-                NameTile(category.label, { onNavigate(Routes.feed("category", category.id)) })
+                NameTile(category.labelFor(hindi), { onNavigate(Routes.feed("category", category.id)) })
             }
         }
     }
@@ -108,6 +110,7 @@ fun ExploreScreen(onNavigate: (String) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IndiaScreen(onNavigate: (String) -> Unit) {
+    val hindi = isHindiUi()
     Scaffold(
         contentWindowInsets = NoInsets,
         topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_india)) }) },
@@ -129,13 +132,13 @@ fun IndiaScreen(onNavigate: (String) -> Unit) {
                 SectionHeader(stringResource(R.string.india_states))
             }
             items(IndiaRegions.states, key = { it.id }) { region ->
-                NameTile(region.name, { onNavigate(Routes.state(region.id)) })
+                NameTile(region.nameFor(hindi), { onNavigate(Routes.state(region.id)) })
             }
             item(key = "uts-h", span = { GridItemSpan(maxLineSpan) }) {
                 SectionHeader(stringResource(R.string.india_uts))
             }
             items(IndiaRegions.unionTerritories, key = { it.id }) { region ->
-                NameTile(region.name, { onNavigate(Routes.state(region.id)) })
+                NameTile(region.nameFor(hindi), { onNavigate(Routes.state(region.id)) })
             }
         }
     }
@@ -144,9 +147,12 @@ fun IndiaScreen(onNavigate: (String) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorldScreen(onNavigate: (String) -> Unit) {
+    val hindi = isHindiUi()
     var query by rememberSaveable { mutableStateOf("") }
     val filtered = remember(query) {
-        WorldCountries.all.filter { it.name.contains(query.trim(), ignoreCase = true) }
+        WorldCountries.all.filter {
+            it.name.contains(query.trim(), ignoreCase = true) || it.nameHi.contains(query.trim())
+        }
     }
     Scaffold(
         contentWindowInsets = NoInsets,
@@ -180,16 +186,16 @@ fun WorldScreen(onNavigate: (String) -> Unit) {
                     SectionHeader(stringResource(R.string.world_popular))
                 }
                 items(WorldCountries.popular, key = { "p-" + it.iso }) { country ->
-                    NameTile(country.name, { onNavigate(Routes.country(country.iso)) })
+                    NameTile(country.nameFor(hindi), { onNavigate(Routes.country(country.iso)) })
                 }
                 WorldRegion.entries.forEach { region ->
                     val countries = WorldCountries.inRegion(region)
                     if (countries.isNotEmpty()) {
                         item(key = "h-" + region.name, span = { GridItemSpan(maxLineSpan) }) {
-                            SectionHeader(region.label)
+                            SectionHeader(region.labelFor(hindi))
                         }
                         items(countries, key = { "r-" + it.iso }) { country ->
-                            NameTile(country.name, { onNavigate(Routes.country(country.iso)) })
+                            NameTile(country.nameFor(hindi), { onNavigate(Routes.country(country.iso)) })
                         }
                     }
                 }
@@ -199,7 +205,7 @@ fun WorldScreen(onNavigate: (String) -> Unit) {
                 }
             } else {
                 items(filtered, key = { "f-" + it.iso }) { country ->
-                    NameTile(country.name, { onNavigate(Routes.country(country.iso)) })
+                    NameTile(country.nameFor(hindi), { onNavigate(Routes.country(country.iso)) })
                 }
             }
         }
@@ -215,7 +221,7 @@ fun StateScreen(
     onBack: () -> Unit,
 ) {
     CategoryFeedScreen(
-        title = region.name,
+        title = region.nameFor(isHindiUi()),
         categories = Category.stateCategories,
         vmPrefix = "state-" + region.id,
         bookmarkedIds = bookmarkedIds,
@@ -233,7 +239,7 @@ fun CountryScreen(
     onBack: () -> Unit,
 ) {
     CategoryFeedScreen(
-        title = country.name,
+        title = country.nameFor(isHindiUi()),
         categories = Category.countryCategories,
         vmPrefix = "country-" + country.iso,
         bookmarkedIds = bookmarkedIds,
@@ -277,7 +283,7 @@ private fun CategoryFeedScreen(
                     FilterChip(
                         selected = category.id == selected.id,
                         onClick = { selectedId = category.id },
-                        label = { Text(category.label) },
+                        label = { Text(category.labelFor(isHindiUi())) },
                     )
                 }
             }
@@ -307,7 +313,7 @@ fun FeedScreen(
         "breaking" -> stringResource(R.string.section_breaking)
         "india" -> stringResource(R.string.section_india)
         "world" -> stringResource(R.string.section_world)
-        "category" -> Category.fromId(arg)?.label ?: stringResource(R.string.section_latest)
+        "category" -> Category.fromId(arg)?.labelFor(isHindiUi()) ?: stringResource(R.string.section_latest)
         "topic" -> arg
         else -> stringResource(R.string.section_latest)
     }

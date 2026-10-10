@@ -3,6 +3,7 @@ package com.wyrix.news.presentation.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wyrix.news.data.prefs.FavoriteKind
+import com.wyrix.news.data.prefs.NewsLanguage
 import com.wyrix.news.data.prefs.ThemeMode
 import com.wyrix.news.data.prefs.UserPrefs
 import com.wyrix.news.data.prefs.UserSettings
@@ -19,8 +20,16 @@ class SettingsViewModel(private val prefs: UserPrefs) : ViewModel() {
         viewModelScope.launch { prefs.setThemeMode(mode) }
     }
 
-    fun setEnglishOnly(value: Boolean) {
-        viewModelScope.launch { prefs.setEnglishOnly(value) }
+    fun setNewsLanguage(language: NewsLanguage) {
+        viewModelScope.launch { prefs.setNewsLanguage(language) }
+    }
+
+    /** Choosing Hindi/English for the app also switches the news language to match. */
+    fun onAppLanguageChosen(tag: String) {
+        when (tag) {
+            "hi" -> setNewsLanguage(NewsLanguage.HINDI)
+            "en" -> setNewsLanguage(NewsLanguage.ENGLISH)
+        }
     }
 
     fun toggleFavorite(kind: FavoriteKind, id: String) {

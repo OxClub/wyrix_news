@@ -51,7 +51,7 @@ class FeedViewModel(
     private var currentSpec: FeedSpec? = null
 
     private val specFlow: Flow<FeedSpec> = prefs.settings
-        .map { if (it.englishOnly) "en" else null }
+        .map { it.languageCode }
         .distinctUntilChanged()
         .map { specBuilder(it) }
 

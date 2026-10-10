@@ -39,6 +39,7 @@ data class HomeSection(
     val id: HomeSectionId,
     val spec: FeedSpec,
     val title: String? = null,
+    val titleHi: String? = null,
     val viewAllRoute: String,
 )
 
@@ -137,9 +138,9 @@ class HomeViewModel(
     }
 
     private fun buildSections(settings: UserSettings): List<HomeSection> {
-        val lang = if (settings.englishOnly) "en" else null
+        val lang = settings.languageCode
         val sections = ArrayList<HomeSection>()
-        sections += HomeSection(HomeSectionId.LATEST, NewsQueryEngine.latest(lang), null, Routes.feed("latest"))
+        sections += HomeSection(HomeSectionId.LATEST, NewsQueryEngine.latest(lang), viewAllRoute = Routes.feed("latest"))
 
         // Up to two personalised sections, in this order: state, country, category, topic.
         val forYou = ArrayList<HomeSection>()
@@ -148,6 +149,7 @@ class HomeViewModel(
                 HomeSectionId.FOR_YOU,
                 NewsQueryEngine.indiaRegion(region, Category.LATEST, lang),
                 region.name,
+                region.nameHi,
                 Routes.state(region.id),
             )
         }
@@ -156,6 +158,7 @@ class HomeViewModel(
                 HomeSectionId.FOR_YOU,
                 NewsQueryEngine.country(country, Category.LATEST, lang),
                 country.name,
+                country.nameHi,
                 Routes.country(country.iso),
             )
         }
@@ -164,6 +167,7 @@ class HomeViewModel(
                 HomeSectionId.FOR_YOU,
                 NewsQueryEngine.category(category, lang),
                 category.label,
+                category.labelHi,
                 Routes.feed("category", category.id),
             )
         }
@@ -172,15 +176,16 @@ class HomeViewModel(
                 HomeSectionId.FOR_YOU,
                 NewsQueryEngine.topic(topic, lang),
                 topic,
+                topic,
                 Routes.feed("topic", topic),
             )
         }
         sections += forYou.take(2)
 
-        sections += HomeSection(HomeSectionId.INDIA, NewsQueryEngine.india(lang), null, Routes.feed("india"))
-        sections += HomeSection(HomeSectionId.WORLD, NewsQueryEngine.world(lang), null, Routes.feed("world"))
+        sections += HomeSection(HomeSectionId.INDIA, NewsQueryEngine.india(lang), viewAllRoute = Routes.feed("india"))
+        sections += HomeSection(HomeSectionId.WORLD, NewsQueryEngine.world(lang), viewAllRoute = Routes.feed("world"))
         fun category(id: HomeSectionId, c: Category) =
-            HomeSection(id, NewsQueryEngine.category(c, lang), null, Routes.feed("category", c.id))
+            HomeSection(id, NewsQueryEngine.category(c, lang), viewAllRoute = Routes.feed("category", c.id))
         sections += category(HomeSectionId.BUSINESS, Category.BUSINESS)
         sections += category(HomeSectionId.TECHNOLOGY, Category.TECHNOLOGY)
         sections += category(HomeSectionId.SPORTS, Category.SPORTS)
@@ -191,9 +196,18 @@ class HomeViewModel(
 
     private fun preferenceTerms(settings: UserSettings): Set<String> {
         val terms = HashSet<String>()
-        settings.favoriteStates.mapNotNull { IndiaRegions.byId(it) }.forEach { terms += it.queryTerm.lowercase() }
-        settings.favoriteCountries.mapNotNull { WorldCountries.byIso(it) }.forEach { terms += it.name.lowercase() }
-        settings.favoriteCategories.mapNotNull { Category.fromId(it)?.keyword }.forEach { terms += it.lowercase() }
+        settings.favoriteStates.mapNotNull { IndiaRegions.byId(it) }.forEach {
+            terms += it.queryTerm.lowercase()
+            terms += it.queryTermHi
+        }
+        settings.favoriteCountries.mapNotNull { WorldCountries.byIso(it) }.forEach {
+            terms += it.name.lowercase()
+            terms += it.nameHi
+        }
+        settings.favoriteCategories.mapNotNull { Category.fromId(it) }.forEach { category ->
+            category.keyword?.let { terms += it.lowercase() }
+            category.keywordHi?.let { terms += it }
+        }
         settings.favoriteTopics.forEach { terms += it.lowercase() }
         return terms
     }

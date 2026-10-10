@@ -44,7 +44,7 @@ object NewsQueryEngine {
     )
 
     fun category(category: Category, language: String?): FeedSpec {
-        val keyword = category.keyword ?: return latest(language)
+        val keyword = category.keywordFor(language) ?: return latest(language)
         return FeedSpec(
             key = key("category", category.id, language),
             query = keyword,
@@ -53,7 +53,7 @@ object NewsQueryEngine {
     }
 
     fun indiaRegion(region: IndiaRegion, category: Category, language: String?): FeedSpec {
-        val query = listOfNotNull(region.queryTerm, category.keyword).joinToString(" ")
+        val query = listOfNotNull(region.queryTermFor(language), category.keywordFor(language)).joinToString(" ")
         return FeedSpec(
             key = key("state", region.id, category.id, language),
             query = query,
@@ -63,7 +63,7 @@ object NewsQueryEngine {
 
     fun country(country: WorldCountry, category: Category, language: String?) = FeedSpec(
         key = key("country", country.iso, category.id, language),
-        query = category.keyword,
+        query = category.keywordFor(language),
         countries = listOf(country.iso),
         language = language,
     )

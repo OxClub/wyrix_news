@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
@@ -48,6 +49,10 @@ import com.wyrix.news.R
 import com.wyrix.news.data.repository.FailureReason
 
 val NoInsets = WindowInsets(0, 0, 0, 0)
+
+/** True when the app UI is currently shown in Hindi (follows the in-app language choice). */
+@Composable
+fun isHindiUi(): Boolean = LocalConfiguration.current.locales[0].language == "hi"
 
 @StringRes
 fun FailureReason.errorRes(): Int = when (this) {

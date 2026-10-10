@@ -63,6 +63,24 @@ class NewsQueryEngineTest {
     }
 
     @Test
+    fun hindiQueriesUseHindiWords() {
+        val rajasthan = IndiaRegions.byId("rajasthan")!!
+        val state = NewsQueryEngine.indiaRegion(rajasthan, Category.POLITICS, "hi")
+        assertEquals("राजस्थान राजनीति", state.query)
+        assertEquals("hi", state.language)
+        assertEquals("खेल", NewsQueryEngine.category(Category.SPORTS, "hi").query)
+        assertEquals("Rajasthan politics", NewsQueryEngine.indiaRegion(rajasthan, Category.POLITICS, "en").query)
+        assertEquals("business", NewsQueryEngine.category(Category.BUSINESS, null).query)
+    }
+
+    @Test
+    fun everyNameHasAHindiVersion() {
+        assertTrue(Category.entries.all { it.labelHi.isNotBlank() && (it == Category.LATEST || !it.keywordHi.isNullOrBlank()) })
+        assertTrue(IndiaRegions.all.all { it.nameHi.isNotBlank() && it.queryTermHi.isNotBlank() })
+        assertTrue(WorldCountries.all.all { it.nameHi.isNotBlank() })
+    }
+
+    @Test
     fun allRegionsAndCountriesAreUnique() {
         assertEquals(36, IndiaRegions.all.size)
         assertEquals(IndiaRegions.all.size, IndiaRegions.all.map { it.id }.toSet().size)

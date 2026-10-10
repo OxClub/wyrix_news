@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import java.io.IOException
+import java.util.Locale
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -18,23 +19,29 @@ private val Context.oxDataStore: DataStore<Preferences> by preferencesDataStore(
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
+enum class NewsLanguage(val code: String?) { ENGLISH("en"), HINDI("hi"), ALL(null) }
+
 enum class FavoriteKind { STATE, COUNTRY, CATEGORY, TOPIC }
 
 data class UserSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val englishOnly: Boolean = true,
+    val newsLanguage: NewsLanguage = NewsLanguage.ENGLISH,
     val favoriteStates: Set<String> = emptySet(),
     val favoriteCountries: Set<String> = emptySet(),
     val favoriteCategories: Set<String> = emptySet(),
     val favoriteTopics: Set<String> = emptySet(),
     val recentSearches: List<String> = emptyList(),
-)
+) {
+    /** Value for the provider's lang filter; null means all languages. */
+    val languageCode: String? get() = newsLanguage.code
+}
 
 class UserPrefs(private val context: Context) {
 
     private object Keys {
         val THEME = stringPreferencesKey("theme")
         val ENGLISH_ONLY = booleanPreferencesKey("english_only")
+        val NEWS_LANGUAGE = stringPreferencesKey("news_language")
         val FAV_STATES = stringSetPreferencesKey("fav_states")
         val FAV_COUNTRIES = stringSetPreferencesKey("fav_countries")
         val FAV_CATEGORIES = stringSetPreferencesKey("fav_categories")
@@ -47,7 +54,11 @@ class UserPrefs(private val context: Context) {
         .map { p ->
             UserSettings(
                 themeMode = p[Keys.THEME]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: ThemeMode.SYSTEM,
-                englishOnly = p[Keys.ENGLISH_ONLY] ?: true,
+                newsLanguage = p[Keys.NEWS_LANGUAGE]?.let { runCatching { NewsLanguage.valueOf(it) }.getOrNull() }
+                    ?: when (p[Keys.ENGLISH_ONLY]) {
+                        false -> NewsLanguage.ALL
+                        else -> if (Locale.getDefault().language == "hi") NewsLanguage.HINDI else NewsLanguage.ENGLISH
+                    },
                 favoriteStates = p[Keys.FAV_STATES].orEmpty(),
                 favoriteCountries = p[Keys.FAV_COUNTRIES].orEmpty(),
                 favoriteCategories = p[Keys.FAV_CATEGORIES].orEmpty(),
@@ -60,8 +71,8 @@ class UserPrefs(private val context: Context) {
         context.oxDataStore.edit { it[Keys.THEME] = mode.name }
     }
 
-    suspend fun setEnglishOnly(value: Boolean) {
-        context.oxDataStore.edit { it[Keys.ENGLISH_ONLY] = value }
+    suspend fun setNewsLanguage(language: NewsLanguage) {
+        context.oxDataStore.edit { it[Keys.NEWS_LANGUAGE] = language.name }
     }
 
     suspend fun toggleFavorite(kind: FavoriteKind, id: String) {

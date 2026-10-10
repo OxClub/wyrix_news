@@ -50,10 +50,15 @@ Query note: the API requires **all** query words, so "Rajasthan politics" is sen
 - **Deep links**: no domain is owned yet.
 - Per-article category labels (the provider does not supply them).
 - Instrumented tests (Room, Compose UI).
-- Hindi covers UI strings; category/state/country names and the long info texts are English.
+- Hindi translations (UI text, names, info pages) were written without a native-speaker review; have them checked before release.
 - Before Play release: set `wyrix.targetSdk` to Google's current requirement, publish a privacy-policy URL, fill the Data safety form.
 
 ## Reader, thumbnails, ads
 - **Reader:** "Read full article" opens the publisher's page in an in-app WebView (https only, no file access, external schemes blocked). "Open in browser" is still available.
 - **Thumbnails:** the API has no images, so `ImageResolver` reads each shown article's `og:image` from the first 150 KB of its page, once per article, max 4 at a time, and saves the result. Some publishers block this, so a few cards stay text-only.
 - **Ads:** one AdMob banner above the bottom bar on the main tabs, using Google's **test** ad units by default. For real ads set `ADMOB_APP_ID` and `ADMOB_BANNER_ID` at build time. Never click your own live ads.
+
+## Hindi
+- **App language:** Settings → App language (System / English / हिन्दी). Uses AppCompat per-app locales, so it also appears in Android 13+ system settings.
+- **News language:** Settings → News language (English / हिन्दी / All). Hindi feeds send Hindi search words (राजनीति, राजस्थान ...) with `lang=hi`. Picking an app language also switches the news language to match.
+- Hindi coverage depends on what the API has indexed; states and categories may be sparser than in English.
