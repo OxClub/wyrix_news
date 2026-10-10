@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">होम</string>
+    <string name="nav_explore">एक्सप्लोर</string>
+    <string name="nav_india">भारत</string>
+    <string name="nav_world">दुनिया</string>
+    <string name="nav_saved">सहेजे गए</string>
+
+    <string name="action_search">खोजें</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="action_back">वापस जाएँ</string>
+    <string name="action_clear">साफ़ करें</string>
+    <string name="action_retry">पुनः प्रयास करें</string>
+    <string name="action_view_all">सभी देखें</string>
+    <string name="action_load_more">और लोड करें</string>
+    <string name="action_save">लेख सहेजें</string>
+    <string name="action_unsave">सहेजे गए से हटाएँ</string>
+    <string name="action_share">साझा करें</string>
+    <string name="action_read_original">मूल लेख पढ़ें</string>
+    <string name="action_add">जोड़ें</string>
+
+    <string name="section_breaking">ब्रेकिंग</string>
+    <string name="section_top_stories">मुख्य खबरें</string>
+    <string name="section_latest">ताज़ा खबरें</string>
+    <string name="section_india">भारत</string>
+    <string name="section_world">दुनिया</string>
+    <string name="section_business">व्यापार</string>
+    <string name="section_technology">तकनीक</string>
+    <string name="section_sports">खेल</string>
+    <string name="section_entertainment">मनोरंजन</string>
+    <string name="section_health">स्वास्थ्य</string>
+    <string name="section_for_you">आपके लिए · %1$s</string>
+    <string name="tag_breaking">ब्रेकिंग</string>
+
+    <string name="msg_loading">लोड हो रहा है</string>
+    <string name="msg_no_news">कोई हालिया खबर उपलब्ध नहीं है।</string>
+    <string name="msg_offline_cached">आप ऑफ़लाइन हैं। हाल में सहेजी गई खबरें दिखाई जा रही हैं।</string>
+    <string name="msg_refresh_failed">समाचार रीफ़्रेश नहीं हो सके। हाल में सहेजे गए लेख दिखाए जा रहे हैं।</string>
+    <string name="err_title">समाचार लोड नहीं हो सके</string>
+    <string name="err_offline">आप ऑफ़लाइन हैं। अपना कनेक्शन जाँचकर फिर कोशिश करें।</string>
+    <string name="err_rate_limited">समाचार सेवा अभी व्यस्त है। कृपया कुछ मिनट बाद फिर कोशिश करें।</string>
+    <string name="err_unavailable">समाचार अभी उपलब्ध नहीं हैं। कृपया बाद में फिर कोशिश करें।</string>
+    <string name="err_malformed">समाचार सेवा से अप्रत्याशित उत्तर मिला।</string>
+    <string name="updated_just_now">अभी अपडेट हुआ</string>
+    <string name="updated_at">अपडेट किया गया: %1$s</string>
+
+    <string name="search_hint">समाचार खोजें</string>
+    <string name="search_recent">हाल की खोजें</string>
+    <string name="search_prompt">खोजने के लिए कम से कम दो अक्षर लिखें।</string>
+    <string name="search_start">भारत और दुनिया भर की असली खबरें खोजें।</string>
+    <string name="search_no_results">कोई परिणाम नहीं मिला।</string>
+    <string name="search_clear_query">खोज साफ़ करें</string>
+
+    <string name="article_by">लेखक: %1$s</string>
+    <string name="article_source">स्रोत: %1$s</string>
+    <string name="article_not_found">यह लेख अब उपलब्ध नहीं है।</string>
+    <string name="saved_empty">आपने अभी तक कोई लेख नहीं सहेजा है।</string>
+
+    <string name="label_categories">श्रेणियाँ</string>
+    <string name="india_all">भारत की खबरें</string>
+    <string name="india_states">राज्य</string>
+    <string name="india_uts">केंद्र शासित प्रदेश</string>
+    <string name="world_all">दुनिया की खबरें</string>
+    <string name="world_popular">लोकप्रिय देश</string>
+    <string name="world_search_country">देश खोजें</string>
+    <string name="world_no_match">कोई मेल खाता देश नहीं मिला।</string>
+
+    <string name="settings_appearance">दिखावट</string>
+    <string name="settings_theme_system">सिस्टम</string>
+    <string name="settings_theme_light">लाइट</string>
+    <string name="settings_theme_dark">डार्क</string>
+    <string name="settings_english_only">केवल अंग्रेज़ी लेख</string>
+    <string name="settings_english_only_desc">केवल अंग्रेज़ी भाषा के लेख दिखाएँ। बंद करने पर अन्य भाषाओं के लेख भी शामिल होंगे।</string>
+    <string name="settings_favorites">पसंदीदा</string>
+    <string name="settings_favorites_desc">राज्य, देश, श्रेणियाँ और विषय जो आपके होम फ़ीड को आकार देते हैं।</string>
+    <string name="settings_sources">समाचार स्रोत</string>
+    <string name="settings_privacy">गोपनीयता नीति</string>
+    <string name="settings_licenses">ओपन सोर्स लाइसेंस</string>
+    <string name="settings_about">परिचय</string>
+    <string name="settings_version">संस्करण %1$s</string>
+    <string name="favorites_states">राज्य और केंद्र शासित प्रदेश</string>
+    <string name="favorites_countries">देश</string>
+    <string name="favorites_topics">विषय</string>
+    <string name="favorites_topic_hint">विषय जोड़ें</string>
+
+    <string name="share_text">%1$s\nस्रोत: %2$s\nऔर पढ़ें: %3$s</string>
+</resources>
