@@ -6,12 +6,12 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
-val targetSdkValue: Int = (project.findProperty("wyrix.targetSdk") as String?)?.toIntOrNull() ?: 35
+val targetSdkValue: Int = (project.findProperty("wyrix.targetSdk") as String?)?.toIntOrNull() ?: 36
 val rssFeeds: String = System.getenv("WYRIX_RSS_FEEDS") ?: (project.findProperty("wyrix.rssFeeds") as String?) ?: ""
 
 android {
     namespace = "com.wyrix.news"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.wyrix.news"
