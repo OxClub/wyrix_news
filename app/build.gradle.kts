@@ -4,9 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
-}
-
-val targetSdkValue: Int = (project.findProperty("wyrix.targetSdk") as String?)?.toIntOrNull() ?: 36
+}                                           
 val rssFeeds: String = System.getenv("WYRIX_RSS_FEEDS") ?: (project.findProperty("wyrix.rssFeeds") as String?) ?: ""
 
 android {
@@ -16,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.wyrix.news"
         minSdk = 26
-        targetSdk = targetSdkValue
+        targetSdk = 36
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
         versionName = "1.0.0"
         // Google's public TEST ids by default. Real ids come from ADMOB_APP_ID / ADMOB_BANNER_ID.
