@@ -27,13 +27,13 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Install Android SDK
+      - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: |
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-          yes | sdkmanager --licenses >/dev/null || true
+        with:
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -72,14 +72,12 @@ jobs:
             echo "Missing KEYSTORE_BASE64 secret"
             exit 1
           }
-
-          echo "$KEYSTORE_BASE64" | base64 --decode \
-            > "$RUNNER_TEMP/wyrix-news-release.jks"
-
+          printf '%s' "$KEYSTORE_BASE64" |
+            base64 --decode > "$RUNNER_TEMP/wyrix-news-release.jks"
           test -s "$RUNNER_TEMP/wyrix-news-release.jks"
           echo "KEYSTORE_PATH=$RUNNER_TEMP/wyrix-news-release.jks" >> "$GITHUB_ENV"
 
-      - name: Build signed release APK and AAB
+      - name: Build release APK and AAB
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -97,7 +95,6 @@ jobs:
             echo "Missing KEY_ALIAS secret"
             exit 1
           }
-
           gradle :app:assembleRelease :app:bundleRelease --stacktrace
 
       - name: Upload release APK
