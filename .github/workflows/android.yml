@@ -18,7 +18,7 @@ jobs:
       ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -27,13 +27,17 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
+      - name: Set up Android SDK tools
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
+          packages: ''
+
+      - name: Install required SDK packages
+        run: |
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -42,14 +46,8 @@ jobs:
 
       - name: Verify AdMob configuration
         run: |
-          test -n "$ADMOB_APP_ID" || {
-            echo "Missing ADMOB_APP_ID repository variable"
-            exit 1
-          }
-          test -n "$ADMOB_BANNER_ID" || {
-            echo "Missing ADMOB_BANNER_ID repository variable"
-            exit 1
-          }
+          test -n "$ADMOB_APP_ID"
+          test -n "$ADMOB_BANNER_ID"
 
       - name: Run unit tests
         run: gradle :app:testDebugUnitTest --stacktrace
@@ -68,33 +66,21 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          test -n "$KEYSTORE_BASE64" || {
-            echo "Missing KEYSTORE_BASE64 secret"
-            exit 1
-          }
+          test -n "$KEYSTORE_BASE64"
           printf '%s' "$KEYSTORE_BASE64" |
             base64 --decode > "$RUNNER_TEMP/wyrix-news-release.jks"
           test -s "$RUNNER_TEMP/wyrix-news-release.jks"
           echo "KEYSTORE_PATH=$RUNNER_TEMP/wyrix-news-release.jks" >> "$GITHUB_ENV"
 
-      - name: Build release APK and AAB
+      - name: Build signed release APK and AAB
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          test -n "$KEYSTORE_PASSWORD" || {
-            echo "Missing KEYSTORE_PASSWORD secret"
-            exit 1
-          }
-          test -n "$KEY_PASSWORD" || {
-            echo "Missing KEY_PASSWORD secret"
-            exit 1
-          }
-          test -n "$KEY_ALIAS" || {
-            echo "Missing KEY_ALIAS secret"
-            exit 1
-          }
+          test -n "$KEYSTORE_PASSWORD"
+          test -n "$KEY_PASSWORD"
+          test -n "$KEY_ALIAS"
           gradle :app:assembleRelease :app:bundleRelease --stacktrace
 
       - name: Upload release APK
