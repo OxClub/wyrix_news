@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#122b32">
+<meta name="description" content="WYRIX News helps readers discover news from multiple publishers, identify original sources and contact the developer.">
+<title>WYRIX News — The World in Perspective</title>
+<style>
+:root{--bg:#f3f5f0;--dark:#122b32;--lime:#d5f36a;--text:#172126;--muted:#627174;--card:#fff;--line:#dce3dc}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+.top{background:var(--lime);text-align:center;padding:8px;font-size:11px;font-weight:900;letter-spacing:2px}
+header{background:var(--dark);color:white}
+nav{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:900;letter-spacing:3px}
+.logo{display:grid;place-items:center;background:var(--lime);color:var(--dark);width:46px;height:46px;border-radius:14px;font-size:23px;letter-spacing:-2px}
+.brand small{display:block;font-size:9px;letter-spacing:2px;color:#c1cfca}
+.links{display:flex;gap:24px;flex-wrap:wrap}
+.links a{color:#e4ece8;text-decoration:none;font-size:13px}
+.links a:hover{color:var(--lime)}
+.hero{background:var(--dark);color:white;padding:95px 0 90px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center}
+.eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:clamp(44px,7vw,78px);line-height:1.02;letter-spacing:-4px;margin:22px 0}
+h1 em{color:var(--lime);font-style:normal}
+.hero p{color:#c3d0cd;font-size:17px;max-width:570px}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-block;padding:12px 19px;border-radius:30px;background:var(--lime);color:var(--dark);font-weight:850;font-size:13px;text-decoration:none}
+.btn.outline{border:1px solid #78908c;background:transparent;color:white}
+.art{border:1px solid #48615d;border-radius:28px;padding:26px;transform:rotate(2deg);background:#1a383d;box-shadow:0 30px 80px #08161980}
+.art-top{display:flex;justify-content:space-between;color:#d5f36a;font-size:11px;font-weight:900;letter-spacing:2px}
+.feature{margin:24px 0;background:#dce9ce;color:var(--dark);border-radius:18px;padding:28px;min-height:190px;display:flex;flex-direction:column;justify-content:end}
+.feature small{font-weight:900;letter-spacing:2px}
+.feature strong{font-size:32px;line-height:1.1;letter-spacing:-1px;margin-top:12px}
+.fake-line{height:9px;border-radius:10px;background:#54716c;margin:13px 0;width:90%}
+.fake-line.short{width:60%;opacity:.55}
+.strip{background:white;border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:28px 0}
+.strip strong{display:block;font-size:14px}
+.strip span{font-size:12px;color:var(--muted)}
+section.content{padding:78px 0}
+.kicker{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#71842f;font-weight:900}
+h2{font-size:clamp(31px,4vw,47px);letter-spacing:-2px;line-height:1.1;margin:12px 0 18px}
+.intro{color:var(--muted);max-width:680px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.card{padding:26px;background:var(--card);border:1px solid var(--line);border-radius:20px}
+.number{color:#71842f;font-size:12px;font-weight:900;letter-spacing:2px}
+.card h3{margin:20px 0 8px;font-size:20px}
+.card p,.about p{color:var(--muted);font-size:14px}
+.source-box{background:var(--dark);color:white;border-radius:26px;padding:clamp(28px,5vw,55px);display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.source-box p{color:#c3d0cd;font-size:14px}
+.source-item{border:1px solid #48615d;border-radius:14px;padding:15px;margin:10px 0;font-size:13px}
+.source-item b{color:var(--lime);display:block;margin-bottom:5px}
+.about{display:grid;grid-template-columns:.7fr 1.3fr;gap:35px;align-items:start}
+.about-mark{background:var(--lime);color:var(--dark);padding:32px;border-radius:24px}
+.about-mark strong{font-size:70px;letter-spacing:-7px}
+.contact{background:#e6ece4}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
+.contact-card{background:white;border:1px solid var(--line);border-radius:22px;padding:30px}
+.contact-card .email{font-size:clamp(20px,3vw,29px);font-weight:900;color:#244f50;overflow-wrap:anywhere}
+footer{background:var(--dark);color:white;padding:35px 0}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer p,footer a{color:#c3d0cd;font-size:12px}
+footer a{margin-left:16px}
+@media(max-width:760px){.hero-grid,.source-box,.about,.contact-grid{grid-template-columns:1fr}.hero{padding:65px 0}.art{max-width:480px}.strip-grid,.cards{grid-template-columns:1fr}.links{gap:12px}.links a{font-size:11px}.brand{letter-spacing:1px}h1{letter-spacing:-2px}.about-mark strong{font-size:50px}}
+</style>
+</head>
+<body>
+<div class="top">WYRIX NEWS · CLEAR SOURCES. WIDER PERSPECTIVE.</div>
+<header>
+<div class="wrap">
+<nav>
+<a class="brand" href="#home"><span class="logo">W.</span><span>WYRIX<small>NEWS · IN PERSPECTIVE</small></span></a>
+<div class="links"><a href="#about">About</a><a href="#standards">Our standards</a><a href="#sources">Sources</a><a href="#contact">Contact</a></div>
+</nav>
+</div>
+</header>
+<main>
+<section class="hero" id="home">
+<div class="wrap hero-grid">
+<div>
+<div class="eyebrow">● A smarter way to stay informed</div>
+<h1>The world moves.<br>Stay <em>in perspective.</em></h1>
+<p>WYRIX News helps readers discover stories from publishers across the web, identify where the reporting comes from, and continue reading original articles.</p>
+<div class="buttons"><a class="btn" href="#standards">Our standards ↗</a><a class="btn outline" href="#sources">Explore sources</a></div>
+</div>
+<div class="art"><div class="art-top"><span>WYRIX / THE DAILY VIEW</span><span>NEWS DIGEST</span></div><div class="feature"><small>THE BIG PICTURE</small><strong>Every story has a source.</strong></div><div class="fake-line"></div><div class="fake-line short"></div><div class="fake-line"></div><div class="fake-line short"></div></div>
+</div>
+</section>
+<div class="strip"><div class="wrap strip-grid">
+<div><strong>◎ Source-first reading</strong><span>Identify the publisher behind a story.</span></div>
+<div><strong>↗ Original reporting matters</strong><span>Visit the original article where available.</span></div>
+<div><strong>◷ Freshness in focus</strong><span>Discover current reporting and updates.</span></div>
+</div></div>
+<section class="content" id="standards"><div class="wrap">
+<div class="kicker">Our editorial approach</div><h2>Useful news starts<br>with clear context.</h2>
+<p class="intro">Our aim is to help readers discover reporting, understand where it comes from, and visit the original publisher for the complete article.</p>
+<div class="cards">
+<article class="card"><div class="number">01 / ATTRIBUTION</div><h3>Give credit clearly.</h3><p>Publisher names and source links should help readers identify the organisation behind a story and reach the original article.</p></article>
+<article class="card"><div class="number">02 / CURRENCY</div><h3>Keep news current.</h3><p>We aim to make recent reporting easier to discover. Update timing and availability can depend on the publisher and source feed.</p></article>
+<article class="card"><div class="number">03 / TRANSPARENCY</div><h3>Be clear about our role.</h3><p>WYRIX News is a news discovery and aggregation service. Third-party reporting remains the work of its respective publishers.</p></article>
+</div>
+</div></section>
+<section class="content" id="sources" style="padding-top:0"><div class="wrap">
+<div class="source-box">
+<div><div class="eyebrow">Follow the reporting</div><h2>Headlines are a starting point. Sources are the story.</h2><p>WYRIX News brings together news from third-party publishers and sources. Use the source information and original-article link to read the publisher's report where available.</p><a class="btn" href="#contact">Ask us about a source ↗</a></div>
+<div><div class="source-item"><b>✓ Publisher identification</b>Look for the publisher or source name shown with a story.</div><div class="source-item"><b>↗ Original article</b>Open the source article for the complete report and publisher context.</div><div class="source-item"><b>ⓘ Third-party content</b>Article content and corrections belong to the original publisher.</div></div>
+</div>
+<p class="intro" style="font-size:12px;margin-top:16px">Publisher names, article links, and availability may vary by source. Please verify that source attribution and original links work correctly in the app.</p>
+</div></section>
+<section class="content" id="about"><div class="wrap about">
+<div class="about-mark"><strong>W.</strong><h3>WYRIX News</h3><p>News discovery with a focus on source visibility and reader choice.</p></div>
+<div><div class="kicker">About WYRIX</div><h2>Discover more.<br>Know where it came from.</h2><p>WYRIX News is a news aggregation app developed by WYRIX. It helps readers explore reporting made available by multiple third-party news publishers and continue to the original source for further reading.</p><p>If you notice an incorrect source, a broken article link, or have a question about the app, please contact us using the details below.</p><h3>Developer information</h3><p><b>Developer / Publisher:</b> WYRIX<br><b>Product:</b> WYRIX News<br><b>Email:</b> <a href="mailto:oxclub@proton.me">oxclub@proton.me</a></p></div>
+</div></section>
+<section class="content contact" id="contact"><div class="wrap contact-grid">
+<div><div class="kicker">Contact the developer</div><h2>Have a question?<br>We're listening.</h2><p class="intro">For support, publisher/source concerns, broken links, privacy questions, or other enquiries about WYRIX News, contact the developer directly.</p></div>
+<div class="contact-card"><p class="kicker">Official contact email</p><a class="email" href="mailto:oxclub@proton.me">oxclub@proton.me</a><p>Developer: <b>WYRIX</b><br>Product: <b>WYRIX News</b></p><p>For article-related enquiries, include the article link and publisher name.</p><a class="btn" href="mailto:oxclub@proton.me?subject=WYRIX%20News%20enquiry">Email WYRIX ↗</a></div>
+</div></section>
+<section class="content" id="privacy"><div class="wrap"><div class="kicker">Privacy information</div><h2>Your privacy matters.</h2><p class="intro">Read our privacy policy for information about data handling, third-party news APIs, advertising services, and how to contact us about privacy questions.</p><p><a class="btn" href="https://oxclub.github.io/wyrix_news/privacy-policy.html" target="_blank" rel="noopener">Read the Privacy Policy ↗</a></p></div></section>
+</main>
+<footer><div class="wrap"><div class="foot"><div><b>WYRIX NEWS</b><p>Clear sources. Wider perspective.</p></div><div><a href="#about">About</a><a href="#contact">Contact</a><a href="https://oxclub.github.io/wyrix_news/privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></div></div><p>© <span id="year"></span> WYRIX News. Third-party reporting remains the property of its respective publishers.</p></div></footer>
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
