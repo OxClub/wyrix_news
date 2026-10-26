@@ -1,5 +1,8 @@
 package com.wyrix.news.presentation.settings
 
+import android.content.Intent
+import android.net.Uri
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -34,6 +38,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -73,6 +78,7 @@ private fun SubScreen(title: String, onBack: () -> Unit, content: @Composable ()
 
 @Composable
 fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
+    val context = LocalContext.current
     val vm = containerViewModel<SettingsViewModel> { SettingsViewModel(it.prefs) }
     val settings by vm.settings.collectAsStateWithLifecycle()
 
@@ -115,8 +121,28 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
                 modifier = Modifier.clickable { onNavigate(Routes.info("sources")) },
             )
             ListItem(
-                headlineContent = { Text(stringResource(R.string.settings_privacy)) },
-                modifier = Modifier.clickable { onNavigate(Routes.info("privacy")) },
+                headlineContent = { Text("Website") },
+                supportingContent = { Text("oxclub.github.io/wyrix_news") },
+                modifier = Modifier.clickable {
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://oxclub.github.io/wyrix_news/"),
+                        ),
+                    )
+                },
+            )
+            ListItem(
+                headlineContent = { Text("Privacy Policy") },
+                supportingContent = { Text("Read our privacy policy online") },
+                modifier = Modifier.clickable {
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://oxclub.github.io/wyrix_news/privacy-policy.html"),
+                        ),
+                    )
+                },
             )
             ListItem(
                 headlineContent = { Text(stringResource(R.string.settings_licenses)) },
@@ -127,6 +153,30 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
                 supportingContent = { Text(stringResource(R.string.settings_version, BuildConfig.VERSION_NAME)) },
                 modifier = Modifier.clickable { onNavigate(Routes.info("about")) },
             )
+            Spacer(Modifier.height(12.dp))
+            Button(
+                onClick = {
+                    val emailIntent = Intent(
+                        Intent.ACTION_SENDTO,
+                        Uri.parse("mailto:oxclub@proton.me"),
+                    )
+                    try {
+                        context.startActivity(emailIntent)
+                    } catch (_: android.content.ActivityNotFoundException) {
+                        android.widget.Toast.makeText(
+                            context,
+                            "No email app is available on this device.",
+                            android.widget.Toast.LENGTH_LONG,
+                        ).show()
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            ) {
+                Text("Contact Us")
+            }
+            Spacer(Modifier.height(16.dp))
         }
     }
 }
