@@ -154,6 +154,29 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
                 modifier = Modifier.clickable { onNavigate(Routes.info("about")) },
             )
             Spacer(Modifier.height(12.dp))
+            Text(
+                text = "Contact Us",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            )
+            Text(
+                text = "Questions or feedback? Contact the WYRIX News team.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            )
+            Text(
+                text = "oxclub@proton.me",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable {
+                        context.startActivity(
+                            Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:oxclub@proton.me"))
+                        )
+                    }
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
+            )
             Button(
                 onClick = {
                     val emailIntent = Intent(
@@ -172,9 +195,9 @@ fun SettingsScreen(onBack: () -> Unit, onNavigate: (String) -> Unit) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                Text("Contact Us")
+                Text("Contact Us — Send Email")
             }
             Spacer(Modifier.height(16.dp))
         }
