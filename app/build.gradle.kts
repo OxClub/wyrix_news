@@ -16,7 +16,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
-        versionName = "1.0.0"
+        versionName = "1.0.2"
         // Google's public TEST ids by default. Real ids come from ADMOB_APP_ID / ADMOB_BANNER_ID.
         manifestPlaceholders["admobAppId"] =
             System.getenv("ADMOB_APP_ID").takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-3940256099942544~3347511713"
