@@ -8,6 +8,9 @@ import com.wyrix.news.ads.AdController
 import com.wyrix.news.ads.AdMobController
 import com.wyrix.news.data.local.WyrixDatabase
 import com.wyrix.news.data.prefs.UserPrefs
+import com.wyrix.news.data.remote.FreeNewsApiIoProvider
+import com.wyrix.news.data.remote.ApiTubeProvider
+import com.wyrix.news.data.remote.CurrentsProvider
 import com.wyrix.news.data.remote.FreeNewsProvider
 import com.wyrix.news.data.remote.NewsProvider
 import com.wyrix.news.data.remote.ProviderGate
@@ -44,6 +47,9 @@ class AppContainer(context: Context) {
 
     private val providers: List<NewsProvider> = listOf(
         FreeNewsProvider(client = http, userAgent = userAgent, apiKey = BuildConfig.FNA_API_KEY),
+        CurrentsProvider(client = http, apiKey = BuildConfig.CURRENTS_API_KEY, userAgent = userAgent),
+        ApiTubeProvider(client = http, apiKey = BuildConfig.APITUBE_API_KEY, userAgent = userAgent),
+        FreeNewsApiIoProvider(client = http, apiKey = BuildConfig.FNIO_API_KEY, userAgent = userAgent),
         RssProvider(client = http, feeds = RssFeedRegistry.parse(BuildConfig.RSS_FEEDS), userAgent = userAgent),
     )
 

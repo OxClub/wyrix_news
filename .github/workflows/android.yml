@@ -15,6 +15,9 @@ jobs:
 
     env:
       FNA_API_KEY: ${{ secrets.FNA_API_KEY }}
+      CURRENTS_API_KEY: ${{ secrets.CURRENTS_API_KEY }}
+      APITUBE_API_KEY: ${{ secrets.APITUBE_API_KEY }}
+      FNIO_API_KEY: ${{ secrets.FNIO_API_KEY }}
       ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
       ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
 

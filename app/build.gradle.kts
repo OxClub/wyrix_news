@@ -6,6 +6,9 @@ plugins {
     id("com.google.devtools.ksp")
 }                                           
 val rssFeeds: String = System.getenv("WYRIX_RSS_FEEDS") ?: (project.findProperty("wyrix.rssFeeds") as String?) ?: ""
+val currentsApiKey: String = System.getenv("CURRENTS_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.currentsApiKey") as String?)?.trim() ?: ""
+val apitubeApiKey: String = System.getenv("APITUBE_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.apitubeApiKey") as String?)?.trim() ?: ""
+val fnioApiKey: String = System.getenv("FNIO_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.fnioApiKey") as String?)?.trim() ?: ""
 val fnaApiKey: String = System.getenv("FNA_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.fnaApiKey") as String?)?.trim() ?: ""
 
 android {
@@ -18,6 +21,9 @@ android {
         targetSdk = 36
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
         versionName = "1.0.2"
+        buildConfigField("String", "CURRENTS_API_KEY", "\"$currentsApiKey\"")
+        buildConfigField("String", "APITUBE_API_KEY", "\"$apitubeApiKey\"")
+        buildConfigField("String", "FNIO_API_KEY", "\"$fnioApiKey\"")
         buildConfigField("String", "FNA_API_KEY", "\"$fnaApiKey\"")
         // Google's public TEST ids by default. Real ids come from ADMOB_APP_ID / ADMOB_BANNER_ID.
         manifestPlaceholders["admobAppId"] =
