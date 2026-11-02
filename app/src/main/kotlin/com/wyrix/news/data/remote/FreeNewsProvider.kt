@@ -33,6 +33,7 @@ class FreeNewsProvider(
     private val client: OkHttpClient,
     private val baseUrl: String = "https://freenewsapi.ai",
     private val userAgent: String = "Wyrix (Android)",
+    private val apiKey: String = "",
     private val now: () -> Long = { System.currentTimeMillis() },
 ) : NewsProvider {
 
@@ -40,11 +41,13 @@ class FreeNewsProvider(
     override val displayName: String = "FreeNewsAPI.ai"
 
     override suspend fun fetch(spec: FeedSpec, offset: Int): ProviderResult {
+        if (apiKey.isBlank()) return ProviderResult.Failure(ProviderError.UNSUPPORTED)
         val url = buildUrl(spec, offset)
         val request = Request.Builder()
             .url(url)
             .header("Accept", "application/json")
             .header("User-Agent", userAgent)
+            .header("Authorization", "Bearer $apiKey")
             .build()
         val response = try {
             client.newCall(request).await()

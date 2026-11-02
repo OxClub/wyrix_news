@@ -43,7 +43,7 @@ class AppContainer(context: Context) {
     private val userAgent = "Wyrix/${BuildConfig.VERSION_NAME} (Android)"
 
     private val providers: List<NewsProvider> = listOf(
-        FreeNewsProvider(client = http, userAgent = userAgent),
+        FreeNewsProvider(client = http, userAgent = userAgent, apiKey = BuildConfig.FNA_API_KEY),
         RssProvider(client = http, feeds = RssFeedRegistry.parse(BuildConfig.RSS_FEEDS), userAgent = userAgent),
     )
 
@@ -55,6 +55,8 @@ class AppContainer(context: Context) {
         store = store,
         gate = ProviderGate(),
         connectivity = connectivity,
+        minRefreshIntervalMs = 60L * 60_000L,
+        minForcedIntervalMs = 10L * 60_000L,
     )
 
     val imageResolver = ImageResolver(http, store, connectivity, appScope, userAgent)

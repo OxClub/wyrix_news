@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 45
 
     env:
+      FNA_API_KEY: ${{ secrets.FNA_API_KEY }}
       ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
       ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
 

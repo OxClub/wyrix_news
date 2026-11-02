@@ -6,6 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
 }                                           
 val rssFeeds: String = System.getenv("WYRIX_RSS_FEEDS") ?: (project.findProperty("wyrix.rssFeeds") as String?) ?: ""
+val fnaApiKey: String = System.getenv("FNA_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.fnaApiKey") as String?)?.trim() ?: ""
 
 android {
     namespace = "com.wyrix.news"
@@ -17,6 +18,7 @@ android {
         targetSdk = 36
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
         versionName = "1.0.2"
+        buildConfigField("String", "FNA_API_KEY", "\"$fnaApiKey\"")
         // Google's public TEST ids by default. Real ids come from ADMOB_APP_ID / ADMOB_BANNER_ID.
         manifestPlaceholders["admobAppId"] =
             System.getenv("ADMOB_APP_ID").takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-3940256099942544~3347511713"
