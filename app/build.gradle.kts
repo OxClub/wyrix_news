@@ -19,8 +19,8 @@ android {
         applicationId = "com.wyrix.news"
         minSdk = 26
         targetSdk = 36
-        versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 1
-        versionName = "1.0.2"
+        versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull() ?: 3
+        versionName = "1.0.3"
         buildConfigField("String", "CURRENTS_API_KEY", "\"$currentsApiKey\"")
         buildConfigField("String", "APITUBE_API_KEY", "\"$apitubeApiKey\"")
         buildConfigField("String", "FNIO_API_KEY", "\"$fnioApiKey\"")
