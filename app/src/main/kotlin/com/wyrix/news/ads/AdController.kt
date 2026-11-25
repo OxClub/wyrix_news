@@ -1,6 +1,10 @@
 package com.wyrix.news.ads
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,7 +30,22 @@ class UnityAdController(
     override var isReady: Boolean by mutableStateOf(false)
         private set
 
+    private var appContext: Context? = null
+
+    /** Debug builds only: shows Unity's status/error on screen so problems are visible. */
+    fun debugToast(msg: String) {
+        Log.d("UnityAds", msg)
+        val c = appContext ?: return
+        if (BuildConfig.DEBUG) {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(c, "Unity: $msg", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     fun initialize(context: Context) {
+        appContext = context.applicationContext
+        if (!isEnabled) debugToast("Game ID empty, ads disabled")
         if (!isEnabled || UnityAds.isInitialized) {
             isReady = UnityAds.isInitialized
             return
@@ -38,6 +57,7 @@ class UnityAdController(
             object : IUnityAdsInitializationListener {
                 override fun onInitializationComplete() {
                     isReady = true
+                    debugToast("SDK initialised")
                 }
 
                 override fun onInitializationFailed(
@@ -45,6 +65,7 @@ class UnityAdController(
                     message: String?,
                 ) {
                     isReady = false
+                    debugToast("Init FAILED: $error $message")
                 }
             },
         )

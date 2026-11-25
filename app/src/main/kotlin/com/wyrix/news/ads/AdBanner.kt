@@ -30,22 +30,30 @@ private fun Context.findActivity(): Activity? {
     return null
 }
 
-/** Unity banner (320x50) that takes no space until an ad has actually loaded. */
+/** Unity banner (320x50). Takes space while loading; collapses if loading fails. */
 @Composable
-fun AdBanner(placementId: String, sdkReady: Boolean, modifier: Modifier = Modifier) {
+fun AdBanner(
+    placementId: String,
+    sdkReady: Boolean,
+    modifier: Modifier = Modifier,
+    onStatus: (String) -> Unit = {},
+) {
     val activity = LocalContext.current.findActivity() ?: return
-    val loaded = remember(placementId) { mutableStateOf(false) }
+    // Stays at full height while loading (the banner needs a real size); collapses only on failure.
+    val failed = remember(placementId) { mutableStateOf(false) }
     val banner = remember(placementId) {
         BannerView(activity, placementId, UnityBannerSize(320, 50)).apply {
             listener = object : BannerView.IListener {
                 override fun onBannerLoaded(bannerAdView: BannerView?) {
-                    loaded.value = true
+                    failed.value = false
+                    onStatus("Banner loaded")
                 }
 
                 override fun onBannerShown(bannerAdView: BannerView?) {}
                 override fun onBannerClick(bannerAdView: BannerView?) {}
                 override fun onBannerFailedToLoad(bannerAdView: BannerView?, errorInfo: BannerErrorInfo?) {
-                    loaded.value = false
+                    failed.value = true
+                    onStatus("Banner FAILED: ${errorInfo?.errorCode} ${errorInfo?.errorMessage}")
                 }
 
                 override fun onBannerLeftApplication(bannerAdView: BannerView?) {}
@@ -55,9 +63,9 @@ fun AdBanner(placementId: String, sdkReady: Boolean, modifier: Modifier = Modifi
     LaunchedEffect(banner, sdkReady) { if (sdkReady) banner.load() }
     DisposableEffect(banner) { onDispose { banner.destroy() } }
 
-    val isLoaded by loaded
+    val isFailed by failed
     Box(
-        modifier.fillMaxWidth().height(if (isLoaded) 50.dp else 0.dp),
+        modifier.fillMaxWidth().height(if (isFailed) 0.dp else 50.dp),
         contentAlignment = Alignment.Center,
     ) {
         AndroidView(factory = { banner })
