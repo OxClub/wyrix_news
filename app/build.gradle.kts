@@ -9,6 +9,12 @@ val rssFeeds: String = System.getenv("WYRIX_RSS_FEEDS") ?: (project.findProperty
 val currentsApiKey: String = System.getenv("CURRENTS_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.currentsApiKey") as String?)?.trim() ?: ""
 val apitubeApiKey: String = System.getenv("APITUBE_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.apitubeApiKey") as String?)?.trim() ?: ""
 val fnioApiKey: String = System.getenv("FNIO_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.fnioApiKey") as String?)?.trim() ?: ""
+// Wyrix News AdMob ids. Release builds use these (override with ADMOB_APP_ID / ADMOB_BANNER_ID env vars).
+val admobAppIdRelease: String = System.getenv("ADMOB_APP_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-5602764660213350~4827514676"
+val admobBannerRelease: String = System.getenv("ADMOB_BANNER_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-5602764660213350/9682866477"
+// Google's public TEST ids: debug builds always use these so you never see/click live ads while developing.
+val admobAppIdTest = "ca-app-pub-3940256099942544~3347511713"
+val admobBannerTest = "ca-app-pub-3940256099942544/6300978111"
 val fnaApiKey: String = System.getenv("FNA_API_KEY")?.trim().takeUnless { it.isNullOrBlank() } ?: (project.findProperty("wyrix.fnaApiKey") as String?)?.trim() ?: ""
 
 android {
@@ -25,10 +31,6 @@ android {
         buildConfigField("String", "APITUBE_API_KEY", "\"$apitubeApiKey\"")
         buildConfigField("String", "FNIO_API_KEY", "\"$fnioApiKey\"")
         buildConfigField("String", "FNA_API_KEY", "\"$fnaApiKey\"")
-        // Unity Ads ids: Unity Dashboard -> Monetization. Blank game id = ads disabled.
-        // Debug builds always run in Unity TEST mode (see UnityAdController).
-        buildConfigField("String", "UNITY_GAME_ID", "\"${System.getenv("UNITY_GAME_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "800452533"}\"")
-        buildConfigField("String", "UNITY_BANNER_ID", "\"${System.getenv("UNITY_BANNER_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "BP_Banner_Android"}\"")
         buildConfigField(
             "String",
             "RSS_FEEDS",
@@ -49,7 +51,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders["admobAppId"] = admobAppIdTest
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerTest\"")
+        }
         release {
+            manifestPlaceholders["admobAppId"] = admobAppIdRelease
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerRelease\"")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -114,7 +122,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
-    implementation("com.unity3d.ads:unity-ads:4.12.5")
+    implementation("com.google.android.gms:play-services-ads:23.6.0")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")

@@ -18,8 +18,6 @@ jobs:
       CURRENTS_API_KEY: ${{ secrets.CURRENTS_API_KEY }}
       APITUBE_API_KEY: ${{ secrets.APITUBE_API_KEY }}
       FNIO_API_KEY: ${{ secrets.FNIO_API_KEY }}
-      UNITY_GAME_ID: ${{ vars.UNITY_GAME_ID }}
-      UNITY_BANNER_ID: ${{ vars.UNITY_BANNER_ID }}
 
     steps:
       - name: Checkout

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -90,12 +91,6 @@ fun WyrixApp() {
         contentWindowInsets = NoInsets,
         bottomBar = {
             if (showBar) {
-                Column {
-                    if (container.ads.isEnabled) AdBanner(
-                        container.ads.bannerUnitId,
-                        container.ads.isReady,
-                        onStatus = { (container.ads as? com.wyrix.news.ads.UnityAdController)?.debugToast(it) },
-                    )
                 NavigationBar {
                     topLevelDestinations.forEach { item ->
                         NavigationBarItem(
@@ -112,11 +107,11 @@ fun WyrixApp() {
                         )
                     }
                 }
-                }
             }
         },
     ) { padding ->
-        NavHost(navController, startDestination = Routes.HOME, modifier = Modifier.padding(padding)) {
+    Column(Modifier.padding(padding)) {
+        NavHost(navController, startDestination = Routes.HOME, modifier = Modifier.weight(1f)) {
             composable(Routes.HOME) { HomeScreen(bookmarkedIds, actions, navigate) }
             composable(Routes.EXPLORE) { ExploreScreen(navigate) }
             composable(Routes.INDIA) { IndiaScreen(navigate) }
@@ -179,5 +174,10 @@ fun WyrixApp() {
                 if (country != null) CountryScreen(country, bookmarkedIds, actions, back)
             }
         }
+        // Banner sits above the nav bar with a 28dp gap so taps on the tabs never hit the ad.
+        if (showBar && container.ads.isEnabled) {
+            AdBanner(container.ads.bannerUnitId, bottomGap = 28.dp)
+        }
+    }
     }
 }
