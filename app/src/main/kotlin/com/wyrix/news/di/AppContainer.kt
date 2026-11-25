@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.wyrix.news.BuildConfig
 import com.wyrix.news.WyrixApplication
 import com.wyrix.news.ads.AdController
-import com.wyrix.news.ads.AdMobController
+import com.wyrix.news.ads.UnityAdController
 import com.wyrix.news.data.local.WyrixDatabase
 import com.wyrix.news.data.prefs.UserPrefs
 import com.wyrix.news.data.remote.FreeNewsApiIoProvider
@@ -69,11 +69,11 @@ class AppContainer(context: Context) {
 
     val bookmarks = BookmarkRepository(database.bookmarkDao())
 
-    private val adMob = AdMobController(BuildConfig.ADMOB_BANNER_ID)
-    val ads: AdController = adMob
+    private val unityAds = UnityAdController(BuildConfig.UNITY_GAME_ID, BuildConfig.UNITY_BANNER_ID)
+    val ads: AdController = unityAds
 
     init {
-        appScope.launch(Dispatchers.IO) { runCatching { adMob.initialize(app) } }
+        runCatching { unityAds.initialize(app) }
     }
 }
 

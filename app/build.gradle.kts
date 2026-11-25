@@ -25,12 +25,10 @@ android {
         buildConfigField("String", "APITUBE_API_KEY", "\"$apitubeApiKey\"")
         buildConfigField("String", "FNIO_API_KEY", "\"$fnioApiKey\"")
         buildConfigField("String", "FNA_API_KEY", "\"$fnaApiKey\"")
-        // Google's public TEST ids by default. Real ids come from ADMOB_APP_ID / ADMOB_BANNER_ID.
-        manifestPlaceholders["admobAppId"] =
-            System.getenv("ADMOB_APP_ID").takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-3940256099942544~3347511713"
-        val admobBanner =
-            System.getenv("ADMOB_BANNER_ID").takeUnless { it.isNullOrBlank() } ?: "ca-app-pub-3940256099942544/6300978111"
-        buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBanner\"")
+        // Unity Ads ids: Unity Dashboard -> Monetization. Blank game id = ads disabled.
+        // Debug builds always run in Unity TEST mode (see UnityAdController).
+        buildConfigField("String", "UNITY_GAME_ID", "\"${System.getenv("UNITY_GAME_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "800452533"}\"")
+        buildConfigField("String", "UNITY_BANNER_ID", "\"${System.getenv("UNITY_BANNER_ID")?.trim().takeUnless { it.isNullOrBlank() } ?: "BP_Banner_Android"}\"")
         buildConfigField(
             "String",
             "RSS_FEEDS",
@@ -116,7 +114,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
-    implementation("com.google.android.gms:play-services-ads:23.6.0")
+    implementation("com.unity3d.ads:unity-ads:4.12.5")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")

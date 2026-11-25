@@ -18,8 +18,8 @@ jobs:
       CURRENTS_API_KEY: ${{ secrets.CURRENTS_API_KEY }}
       APITUBE_API_KEY: ${{ secrets.APITUBE_API_KEY }}
       FNIO_API_KEY: ${{ secrets.FNIO_API_KEY }}
-      ADMOB_APP_ID: ${{ vars.ADMOB_APP_ID }}
-      ADMOB_BANNER_ID: ${{ vars.ADMOB_BANNER_ID }}
+      UNITY_GAME_ID: ${{ vars.UNITY_GAME_ID }}
+      UNITY_BANNER_ID: ${{ vars.UNITY_BANNER_ID }}
 
     steps:
       - name: Checkout
@@ -47,11 +47,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.9"
-
-      - name: Verify AdMob configuration
-        run: |
-          test -n "$ADMOB_APP_ID"
-          test -n "$ADMOB_BANNER_ID"
 
       - name: Run unit tests
         run: gradle :app:testDebugUnitTest --stacktrace

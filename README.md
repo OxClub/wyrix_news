@@ -46,7 +46,7 @@ Query note: the API requires **all** query words, so "Rajasthan politics" is sen
 
 ## Not implemented (on purpose)
 - **Firebase push notifications**: need your own `google-services.json`.
-- **AdMob consent form (UMP)**: required before real ads in the EEA/UK; not added because only test ads are on.
+- **Ad consent (EEA/UK)**: Unity Ads needs user consent/privacy metadata before live ads in the EEA/UK; not added yet.
 - **Deep links**: no domain is owned yet.
 - Per-article category labels (the provider does not supply them).
 - Instrumented tests (Room, Compose UI).
@@ -56,7 +56,7 @@ Query note: the API requires **all** query words, so "Rajasthan politics" is sen
 ## Reader, thumbnails, ads
 - **Reader:** "Read full article" opens the publisher's page in an in-app WebView (https only, no file access, external schemes blocked). "Open in browser" is still available.
 - **Thumbnails:** the API has no images, so `ImageResolver` reads each shown article's `og:image` from the first 150 KB of its page, once per article, max 4 at a time, and saves the result. Some publishers block this, so a few cards stay text-only.
-- **Ads:** one AdMob banner above the bottom bar on the main tabs, using Google's **test** ad units by default. For real ads set `ADMOB_APP_ID` and `ADMOB_BANNER_ID` at build time. Never click your own live ads.
+- **Ads:** one Unity Ads banner above the bottom bar on the main tabs. Set `UNITY_GAME_ID` (and `UNITY_BANNER_ID`, default `Banner_Android`) at build time; with no Game ID, ads stay off. Debug builds use Unity test mode. Never click your own live ads.
 
 ## Hindi
 - **App language:** Settings → App language (System / English / हिन्दी). Uses AppCompat per-app locales, so it also appears in Android 13+ system settings.

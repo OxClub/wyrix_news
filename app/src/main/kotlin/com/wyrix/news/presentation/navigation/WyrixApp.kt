@@ -91,7 +91,7 @@ fun WyrixApp() {
         bottomBar = {
             if (showBar) {
                 Column {
-                    if (container.ads.isEnabled) AdBanner(container.ads.bannerUnitId)
+                    if (container.ads.isEnabled) AdBanner(container.ads.bannerUnitId, container.ads.isReady)
                 NavigationBar {
                     topLevelDestinations.forEach { item ->
                         NavigationBarItem(
